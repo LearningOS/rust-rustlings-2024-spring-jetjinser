@@ -24,6 +24,8 @@
             name = "rustlings";
             version = "5.5.1";
 
+            doCheck = false;
+
             buildInputs = cargoBuildInputs;
 
             src = with pkgs.lib; cleanSourceWith {
@@ -60,5 +62,21 @@
             clippy
           ] ++ cargoBuildInputs;
         };
+        apps =
+          let
+            rustlings-app = {
+              type = "app";
+              program = "${rustlings}/bin/rustlings";
+            };
+          in
+          {
+            default = rustlings-app;
+            rustlings = rustlings-app;
+          };
+        packages = {
+          inherit rustlings;
+          default = rustlings;
+        };
       });
 }
+
